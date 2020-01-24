@@ -2,7 +2,6 @@ import os
 from os import path
 if path.exists("env.py"):
     import env
-import json
 from flask import Flask, render_template, redirect, request, url_for
 from flask_pymongo import PyMongo 
 from bson.objectid import ObjectId
@@ -18,21 +17,50 @@ mongo = PyMongo(app)
 def index():
     return render_template('index.html')
 
-@app.route('/add_recipe')
+@app.route('/addrecipe')
 def add_recipe():
-    return render_template('addrecipe.html',recipes=mongo.db.recipes.find(),cuisines=mongo.db.cuisines.find(),mealChoice=mongo.db.mealChoice.find().sort('mealChoiceName',1),serves=mongo.db.serves.find())
+    recipes=mongo.db.recipes.find()
+    cuisines=mongo.db.cuisines.find()
+    print(cuisines)
+    print(type(cuisines))
+    mealChoice=mongo.db.mealChoice.find().sort("mealChoiceName")
+    serves=mongo.db.serves.find()
+    return render_template('addrecipe.html',
+                            recipes=recipes,
+                            cuisines=cuisines,
+                            mealChoice=mealChoice,
+                            serves=serves)
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipes = mongo.db.recipes
     post_request = request.form.to_dict()
-    print(recipe[recipe_name])
+    print(post_request)
     return render_template('index.html')
+
+@app.route('/browse_recipes')
+def get_recipes():
+    recipes=mongo.db.recipes.find()
+    cuisines=mongo.db.cuisines.find()
+    mealChoice=mongo.db.mealChoice.find()
+    serves=mongo.db.serves.find()
+    return render_template('browse_recipes.html',recipes=recipes, cuisines=cuisines,mealChoice=mealChoice,serves=serves)
+
+@app.route('/nrecipe')
+def nrecipe():
+    recipes=mongo.db.recipes.find()
+    totalrecipes=[recipes]
+    return render_template('nrecipe.html',totalrecipes=totalrecipes,recipes=recipes)
+
+@app.route('/get_recipe/<recipe_id>')
+def get_recipe(recipe_id):
+    recipes=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    return render_template("get_recipe.html", recipes=recipes)
+
 
 @app.route('/get_cuisines')
 def get_cuisines():
     return render_template('getcuisines.html',recipes=mongo.db.recipes.find(),cuisines=mongo.db.cuisines.find())
-
 
 
 
