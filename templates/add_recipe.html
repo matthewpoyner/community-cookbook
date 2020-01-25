@@ -1,8 +1,110 @@
 {% extends 'base.html' %} {% block content %}
 
+<div class="container ">
+    <form name="new_recipe_form" action="{{url_for('insert_recipe')}}" method="POST" ">
+<h3>Add A Recipe</h3>
+    <!-- Field for recipe name-->
+        <div class="row form-group ">
+            <div class="col-md-6 ">
+                <label for="recipe_name ">Recipe Name:</label>
+                <input type="text-area " class="form-control capitalise " name="recipe_name " id="recipe_name " placeholder="Enter recipe name " autofocus required>
+        </div>
+        <!-- Field for cooks name-->
+        <div class="col-md-6 ">
+            <label for="cook_name ">Your Name:</label>
+            <input type="text-area " class="form-control capitalise " name="cook_name " id="cook_name " placeholder="Enter your name " required>
+        </div>
+    </div>
 
-<div class="container">
-    hi Sebastian
+        <!-- Dropdown field for choosing cuisine type-->
+        <div class="row form-group ">
+            <div class="col-md-6 ">
+                <label for="cuisine_name ">Choose a style of cuisine:</label>
+                <select class="form-control " id="cuisine_name " name="cuisine_name " type="string ">
+                    <option value = " " disabled selected></option>
+                    {% for cuisine in cuisines %}
+                    <option value="{{ cuisine.cuisine_name }} ">{{ cuisine.cuisine_name.title() }}</option>
+                    {% endfor %}
+            </select>
+            </div>
 
-</div>
+            <!-- Dropdown field for meal type-->
+            <div class="col-md-6 ">
+                <label for="meal ">Meal type</label>
+                <select class="form-control " id="meal " name="mealChoiceName ">
+                    <option value = " " disabled selected></option>
+                    {% for meal in mealChoice %}
+                    <option value="{{ meal.mealChoiceName }} ">{{ meal.mealChoiceName.title() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Field for preparation time-->
+        <div class="row for-group ">
+            <div class="col-md-3 col-sm-6 ">
+                <label for="prep_time ">Preparation Time:</label>
+                <input type="text-area " class="form-control capitalise " name="prep_time " id="prep_time " placeholder="Enter prep time ">
+            </div>
+
+        <!-- Field for total cooking time -->
+        <div class="col-md-3 col-sm-6 ">
+            <label for="total_cooking_time ">Total Cooking Time:</label>
+            <input type="text-area " class="form-control capitalise " name="total_cooking_time " id="total_cooking_time " placeholder="Enter total cook time ">
+        </div>
+
+        <!-- Field for total servings/portions -->
+        <div class="col-md-3 col-sm-6 ">
+            <label for="meal ">Serves/Portions</label>
+            <select class="form-control " id="serves " name="serves ">
+                    <option value = " " disabled selected></option>
+                    {% for serves in serves %}
+                    <option value="{{serves.servings}} ">{{serves.servings}}</option>
+                    {% endfor %}
+                    </select>
+        </div>
+
+        <!-- Field for amount of fat per serving -->
+        <div class="col-md-3 col-sm-6 ">
+            <label for="fat_per_serve ">Fat per serving:</label>
+            <input type="text-area " class="form-control capitalise " name="fat_per_serve " id="fat_per_serve " placeholder="Fat per serve? ">
+        </div>
+    </div>
+
+    <h3>Add your ingredients</h3>
+        
+        <!-- Field for ingredients -->
+        <div class="row ">
+            <div class="col ">
+            <div class="input-group ">
+                <textarea class="form-control " id="ingredients " rows="5 " name="ingredients "></textarea>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row ">
+        <div class="col ">
+            <h3>Method</h3>
+        </div>
+    </div>
+
+    <!-- Field for cooking method -->
+    <div class="row " id="div-step1 ">
+        <div class="col-12 ">
+            <div class="form-group ">
+                <textarea class="form-control " id="method " rows="5 " name="method "></textarea>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="row ">
+        <div class="col-12 ">
+            <button class="btn btn-primary " type="submit " id="addRecipe ">Add Recipe</button>
+        </div>
+    </div>
+</form>
+
 {% endblock %}
